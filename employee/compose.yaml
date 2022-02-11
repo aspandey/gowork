@@ -1,0 +1,24 @@
+services:
+  employee:
+    image: ashishpandey2014/employee:1.3
+  emp-mongo:
+    image: mongo:latest
+    ports:
+    - 27017:27017
+    environment:
+    - MONGO_INITDB_ROOT_USERNAME=admin
+    - MONGO_INITDB_ROOT_PASSWORD=password
+
+  emp-mongo-express:
+    image: mongo-express
+    ports:
+    - 8080:8081
+    environment:
+    - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+    - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+    - ME_CONFIG_MONGODB_SERVER=emp-mongo
+    depends_on:
+    - "mongodb"
+    restart: unless-stopped
+    # You need to wait for mongo server to comeup before
+    # mongo express. Or express should restart again to check for mongo db
